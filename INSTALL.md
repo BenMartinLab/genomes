@@ -30,13 +30,13 @@ git pull
 ### Change directory to projects folder
 
 ```shell
-cd ~/projects/def-bmartin/scripts
+cd ~/projects/def-bmartin
 ```
 
 For Rorqual server, use
 
 ```shell
-cd ~/links/projects/def-bmartin/scripts
+cd ~/links/projects/def-bmartin
 ```
 
 ### Clone repository
