@@ -56,3 +56,4 @@ rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa
 rm Homo_sapiens.GRCh38.115.gtf
 rm Homo_sapiens.GRCh38.115.filtered.gtf
+rm chromAlias.txt

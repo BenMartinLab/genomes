@@ -57,3 +57,4 @@ rm Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa
 rm Drosophila_melanogaster.BDGP6.54.dna.toplevel.filtered.fa
 rm Drosophila_melanogaster.BDGP6.54.115.gtf
 rm Drosophila_melanogaster.BDGP6.54.115.filtered.gtf
+rm chromAlias.txt
