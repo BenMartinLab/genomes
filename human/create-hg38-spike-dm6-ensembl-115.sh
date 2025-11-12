@@ -40,7 +40,5 @@ cat "${script_path}/hg38-ensembl-115/hg38.gtf" \
     dm6.gtf \
     > hg38-spike-dm6.gtf
 
-rm dm6.fa
 rm dm6.fa.bak
-rm dm6.gtf
 rm dm6.gtf.bak
