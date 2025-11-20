@@ -8,6 +8,8 @@
     2. [Clone repository](#Clone-repository)
 3. [Downloading genomes](#Downloading-genomes)
 4. [Genomes with spike-in](#Genomes-with-spike-in)
+5. [Creating indexes for bowtie2, STAR, etc...](#Creating-indexes-for-bowtie2-STAR-etc)
+    1. [Bowtie2](#Bowtie2)
 
 ## Updating scripts
 
@@ -73,4 +75,13 @@ Then, run the desired script. For example:
 
 ```shell
 bash $genomes_folder/human/create-hg38-spike-dm6-ensembl-115.sh
+```
+
+## Creating indexes for bowtie2, STAR, etc...
+
+### Bowtie2
+
+```shell
+mkdir $genomes_folder/human/hg38-ensembl-115/bowtie2
+sbatch $genomes_folder/bowtie2-build.sh $genomes_folder/human/hg38-ensembl-115/hg38.fa $genomes_folder/human/hg38-ensembl-115/bowtie2/hg38
 ```

@@ -8,6 +8,7 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
 
 1. [Finding desired genome](#Finding-desired-genome)
 2. [Copying genome to scratch](#Copying-genome-to-scratch)
+    1. [Copying index for bowtie2](#Copying-index-for-bowtie2)
 
 ## Finding desired genome
 
@@ -53,3 +54,12 @@ cp $genomes_folder/human/hg38-ensembl-115/* .
 
 If you see an error like `cp: cannot stat '/human/hg38-ensembl-115': No such file or directory`, it means the variable `genomes_folder` is not defined.
 To set the variable, see [Finding desired genome](#Finding-desired-genome)
+
+### Copying index for bowtie2
+
+```shell
+mkdir bowtie2
+cp $genomes_folder/human/hg38-ensembl-115/bowtie2/* bowtie2
+```
+
+To use the index, use `-x bowtie2/hg38` for the `bowtie2` command.
