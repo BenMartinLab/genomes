@@ -135,7 +135,7 @@ For Rorqual server, use
 export PATH=~/links/projects/def-bmartin/scripts/proseq:$PATH
 ```
 
-Set genome name in a variable.
+Set genome name in a variable. It can be a genome with spike-in like `hg38-spike-dm6`.
 
 ```shell
 genome=hg38
@@ -189,15 +189,4 @@ sbatch create-transcript-list.sh \
     -t gene_name \
     -d proseq \
     -a gene_biotype
-```
-
-#### Symlink `proseq` folder to spike-in genomes
-
-If you created the PRO-seq specific files for hg38, the same files for human samples with spike-in that use hg38 as the main genome should be used.
-
-Here is an example on how you can create such symbolic link.
-
-```shell
-cd $genomes_folder
-ln -s $genomes_folder/human/hg38-ensembl-115/proseq human/hg38-spike-dm6-ensembl-115/proseq
 ```
