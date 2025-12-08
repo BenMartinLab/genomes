@@ -15,6 +15,7 @@
    1. [PRO-seq](#PRO-seq)
       1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
       2. [Create transcript list from GTF](#Create-transcript-list-from-GTF)
+      3. [Symlink proseq folder to spike-in genomes](#Symlink-proseq-folder-to-spike-in-genomes)
 
 ## Updating scripts
 
@@ -188,4 +189,15 @@ sbatch create-transcript-list.sh \
     -t gene_name \
     -d proseq \
     -a gene_biotype
+```
+
+#### Symlink `proseq` folder to spike-in genomes
+
+If you created the PRO-seq specific files for hg38, the same files for human samples with spike-in that use hg38 as the main genome should be used.
+
+Here is an example on how you can create such symbolic link.
+
+```shell
+cd $genomes_folder
+ln -s $genomes_folder/human/hg38-ensembl-115/proseq human/hg38-spike-dm6-ensembl-115/proseq
 ```
