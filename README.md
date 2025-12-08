@@ -46,10 +46,10 @@ Assuming, you want the Ensembl release version 115 of the human genome, the fold
 ls $genomes_folder/human/hg38-ensembl-115
 ```
 
-You can save the genome name as a variable to simplify later commands.
+You can save the genome location as a variable to simplify later commands.
 
 ```shell
-genome_reference=hg38-ensembl-115
+genome_location=$genomes_folder/human/hg38-ensembl-115
 ```
 
 ## Copying genome to scratch
@@ -59,7 +59,7 @@ Once you have located the genome that you wish to use, I recommend to copy it to
 Assuming you wish to use the human genome from Ensembl release version 115, use the following command from the same folder containing other files like FASTQ.
 
 ```shell
-cp $genomes_folder/human/$genome_reference/* .
+cp $genome_location/* .
 ```
 
 If you see an error like `cp: cannot stat '/human/hg38-ensembl-115': No such file or directory`, it means the variable `genomes_folder` is not defined.
@@ -71,7 +71,7 @@ To set the variable, see [Finding desired genome](#Finding-desired-genome)
 
 ```shell
 mkdir bowtie2
-cp $genomes_folder/human/$genome_reference/bowtie2/* bowtie2
+cp $genome_location/bowtie2/* bowtie2
 ```
 
 To use the index, use `-x bowtie2/hg38` for the `bowtie2` command.
@@ -80,7 +80,7 @@ To use the index, use `-x bowtie2/hg38` for the `bowtie2` command.
 
 ```shell
 mkdir star
-cp $genomes_folder/human/$genome_reference/star/* star
+cp $genome_location/star/* star
 ```
 
 To use the index, use `--genomeDir star` for the `STAR` command.
@@ -91,5 +91,5 @@ To use the index, use `--genomeDir star` for the `STAR` command.
 
 ```shell
 mkdir proseq
-cp $genomes_folder/human/$genome_reference/proseq/* proseq
+cp $genome_location/proseq/* proseq
 ```
