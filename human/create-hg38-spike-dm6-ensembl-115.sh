@@ -37,6 +37,12 @@ cat hg38.fa \
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     hg38-spike-dm6.fa \
     > hg38-spike-dm6.chrom.sizes
+awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
+    hg38.fa \
+    > hg38.chrom.sizes
+awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
+    dm6.fa \
+    > dm6.chrom.sizes
 
 cat hg38.gtf \
     dm6.gtf \

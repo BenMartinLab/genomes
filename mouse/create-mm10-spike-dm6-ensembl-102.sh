@@ -37,6 +37,12 @@ cat mm10.fa \
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     mm10-spike-dm6.fa \
     > mm10-spike-dm6.chrom.sizes
+awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
+    mm10.fa \
+    > mm10.chrom.sizes
+awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
+    dm6.fa \
+    > dm6.chrom.sizes
 
 cat mm10.gtf \
     dm6.gtf \
