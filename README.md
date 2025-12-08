@@ -8,7 +8,8 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
 
 1. [Finding desired genome](#Finding-desired-genome)
 2. [Copying genome to scratch](#Copying-genome-to-scratch)
-    1. [Copying index for bowtie2](#Copying-index-for-bowtie2)
+   1. [Copying index for bowtie2](#Copying-index-for-bowtie2)
+   2. [Copying index for STAR](#Copying-index-for-STAR)
 
 ## Finding desired genome
 
@@ -69,3 +70,12 @@ cp $genomes_folder/human/$genome_reference/bowtie2/* bowtie2
 ```
 
 To use the index, use `-x bowtie2/hg38` for the `bowtie2` command.
+
+### Copying index for STAR
+
+```shell
+mkdir star
+cp $genomes_folder/human/$genome_reference/star/* star
+```
+
+To use the index, use `--genomeDir star` for the `STAR` command.
