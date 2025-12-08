@@ -10,6 +10,8 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
 2. [Copying genome to scratch](#Copying-genome-to-scratch)
    1. [Copying index for bowtie2](#Copying-index-for-bowtie2)
    2. [Copying index for STAR](#Copying-index-for-STAR)
+3. [Copying pipeline specific files to scratch](#Copying-pipeline-specific-files-to-scratch)
+   1. [PRO-seq](#PRO-seq)
 
 ## Finding desired genome
 
@@ -79,3 +81,12 @@ cp $genomes_folder/human/$genome_reference/star/* star
 ```
 
 To use the index, use `--genomeDir star` for the `STAR` command.
+
+## Copying pipeline specific files to scratch
+
+### PRO-seq
+
+```shell
+mkdir proseq
+cp $genomes_folder/human/$genome_reference/proseq/* proseq
+```
