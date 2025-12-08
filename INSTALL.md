@@ -11,6 +11,10 @@
 5. [Creating indexes for bowtie2, STAR, etc...](#Creating-indexes-for-bowtie2-STAR-etc)
    1. [Bowtie2](#Bowtie2)
    2. [STAR](#STAR)
+6. [Creating pipeline specific files](#Creating-pipeline-specific-files)
+   1. [PRO-seq](#PRO-seq)
+      1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
+      2. [Create transcript list from GTF](#Create-transcript-list-from-GTF)
 
 ## Updating scripts
 
@@ -112,4 +116,76 @@ sbatch bowtie2-build.sh hg38.fa bowtie2/hg38
 
 ```shell
 sbatch --mem=40G star-index.sh -f hg38.fa -g hg38.gtf
+```
+
+## Creating pipeline specific files
+
+### PRO-seq
+
+Add PRO-seq scripts folder to your PATH.
+
+```shell
+export PATH=~/projects/def-bmartin/scripts/proseq:$PATH
+```
+
+For Rorqual server, use
+
+```shell
+export PATH=~/links/projects/def-bmartin/scripts/proseq:$PATH
+```
+
+Set genome name in a variable.
+
+```shell
+genome=hg38
+```
+
+Move to desired genome (for example hg38-ensembl-115).
+
+```shell
+cd $genomes_folder/human/hg38-ensembl-115
+```
+
+Create sub-folder for PRO-seq specific files.
+
+```shell
+mkdir -p proseq
+```
+
+#### Create TSS list from GTF
+
+```shell
+rm -f proseq/$genome.gtf
+awk '$0 !~ /#!/' $genome.gtf > "proseq/${genome}.gtf"
+create-tss-list.sh -g "proseq/${genome}.gtf"
+```
+
+If the `create-tss-list.sh` command fails due to memory usage, you can run it using `sbatch`.
+
+```shell
+sbatch create-tss-list.sh -g "proseq/${genome}.gtf"
+```
+
+#### Create transcript list from GTF
+
+```shell
+create-transcript-list.sh \
+    -g $genome.gtf \
+    -f transcript \
+    -s transcript_id \
+    -t gene_name \
+    -d proseq \
+    -a gene_biotype
+```
+
+If the `create-transcript-list.sh` command fails due to memory usage, you can run it using `sbatch`.
+
+```shell
+sbatch create-transcript-list.sh \
+    -g $genome.gtf \
+    -f transcript \
+    -s transcript_id \
+    -t gene_name \
+    -d proseq \
+    -a gene_biotype
 ```
