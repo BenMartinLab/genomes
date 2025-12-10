@@ -2,10 +2,10 @@
 
 ### Steps
 
-1. [Updating scripts](#Updating-scripts)
-2. [Installing of the scripts](#Installing-of-the-scripts)
-   1. [Change directory to `projects` folder](#Change-directory-to-projects-folder)
-   2. [Clone repository](#Clone-repository)
+1. [Installing of the scripts](#Installing-of-the-scripts)
+    1. [Change directory to `projects` folder](#Change-directory-to-projects-folder)
+    2. [Clone repository](#Clone-repository)
+2. [Updating scripts](#Updating-scripts)
 3. [Downloading genomes](#Downloading-genomes)
 4. [Genomes with spike-in](#Genomes-with-spike-in)
 5. [Creating indexes for bowtie2, STAR, etc...](#Creating-indexes-for-bowtie2-STAR-etc)
@@ -16,22 +16,6 @@
       1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
       2. [Create transcript list from GTF](#Create-transcript-list-from-GTF)
       3. [Symlink proseq folder to spike-in genomes](#Symlink-proseq-folder-to-spike-in-genomes)
-
-## Updating scripts
-
-Go to the genomes scripts folder and run `git pull`.
-
-```shell
-cd ~/projects/def-bmartin/genomes
-git pull
-```
-
-For Rorqual server, use
-
-```shell
-cd ~/links/projects/def-bmartin/genomes
-git pull
-```
 
 ## Installing of the scripts
 
@@ -51,6 +35,22 @@ cd ~/links/projects/def-bmartin
 
 ```shell
 git clone https://github.com/BenMartinLab/genomes.git
+```
+
+## Updating scripts
+
+Go to the genomes scripts folder and run `git pull`.
+
+```shell
+cd ~/projects/def-bmartin/genomes
+git pull
+```
+
+For Rorqual server, use
+
+```shell
+cd ~/links/projects/def-bmartin/genomes
+git pull
 ```
 
 ## Downloading genomes
