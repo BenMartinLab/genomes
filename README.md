@@ -48,6 +48,9 @@ ls $genomes_folder/human/hg38-ensembl-115
 
 You can save the genome location as a variable to simplify later commands.
 
+> [!IMPORTANT]
+> Change `human/hg38-ensembl-115` by the genome you want to use.
+
 ```shell
 genome_location=$genomes_folder/human/hg38-ensembl-115
 ```
