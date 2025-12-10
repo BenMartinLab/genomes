@@ -99,15 +99,27 @@ export PATH=~/links/projects/def-bmartin/genomes:$PATH
 
 Move to the desired genome.
 
+> [!IMPORTANT]
+> Change `human/hg38-ensembl-115` by the genome you want to use.
+
 ```shell
 cd $genomes_folder/human/hg38-ensembl-115
+```
+
+Set genome name in a variable. It can be a genome with spike-in like `hg38-spike-dm6`.
+
+> [!IMPORTANT]
+> Change `hg38` by the genome you want to use.
+
+```shell
+genome=hg38
 ```
 
 ### Bowtie2
 
 ```shell
 mkdir bowtie2
-sbatch bowtie2-build.sh hg38.fa bowtie2/hg38
+sbatch bowtie2-build.sh $genome.fa bowtie2/$genome
 ```
 
 ### STAR
@@ -116,7 +128,7 @@ sbatch bowtie2-build.sh hg38.fa bowtie2/hg38
 > If `star-index.sh` job fails due to memory, change the value of `--mem`.
 
 ```shell
-sbatch --mem=40G star-index.sh -f hg38.fa -g hg38.gtf
+sbatch --mem=40G star-index.sh -f $genome.fa -g $genome.gtf
 ```
 
 ## Creating pipeline specific files
@@ -135,16 +147,22 @@ For Rorqual server, use
 export PATH=~/links/projects/def-bmartin/scripts/proseq:$PATH
 ```
 
-Set genome name in a variable. It can be a genome with spike-in like `hg38-spike-dm6`.
+Move to desired genome.
 
-```shell
-genome=hg38
-```
-
-Move to desired genome (for example hg38-ensembl-115).
+> [!IMPORTANT]
+> Change `human/hg38-ensembl-115` by the genome you want to use.
 
 ```shell
 cd $genomes_folder/human/hg38-ensembl-115
+```
+
+Set genome name in a variable. It can be a genome with spike-in like `hg38-spike-dm6`.
+
+> [!IMPORTANT]
+> Change `hg38` by the genome you want to use.
+
+```shell
+genome=hg38
 ```
 
 Create sub-folder for PRO-seq specific files.
