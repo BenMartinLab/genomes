@@ -15,7 +15,6 @@
    1. [PRO-seq](#PRO-seq)
       1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
       2. [Create transcript list from GTF](#Create-transcript-list-from-GTF)
-      3. [Symlink proseq folder to spike-in genomes](#Symlink-proseq-folder-to-spike-in-genomes)
 
 ## Installing of the scripts
 
