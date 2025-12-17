@@ -23,6 +23,7 @@ chr22
 chr23
 chrX
 chrY
+chrR
 1
 2
 3
@@ -48,3 +49,4 @@ chrY
 23
 X
 Y
+R
