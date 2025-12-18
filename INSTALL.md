@@ -178,11 +178,17 @@ awk '$0 !~ /#!/' $genome.gtf > "proseq/${genome}.gtf"
 create-tss-list.sh -g "proseq/${genome}.gtf"
 ```
 
+<details>
+
+<summary>
 If the `create-tss-list.sh` command fails due to memory usage, you can run it using `sbatch`.
+</summary>
 
 ```shell
 sbatch create-tss-list.sh -g "proseq/${genome}.gtf"
 ```
+
+</details>
 
 #### Create transcript list from GTF
 
@@ -196,7 +202,11 @@ create-transcript-list.sh \
     -a gene_biotype
 ```
 
+<details>
+
+<summary>
 If the `create-transcript-list.sh` command fails due to memory usage, you can run it using `sbatch`.
+</summary>
 
 ```shell
 sbatch create-transcript-list.sh \
@@ -207,3 +217,5 @@ sbatch create-transcript-list.sh \
     -d proseq \
     -a gene_biotype
 ```
+
+</details>
