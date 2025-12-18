@@ -55,7 +55,7 @@ python "${replace_path}/replace-chromosome.py" --delete \
 bedToGenePred Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.bed /dev/stdout \
     | grep chrR \
     | genePredToGtf file /dev/stdin Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.gtf
-cat hg38-nonR.gtf Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.bed \
+cat hg38-nonR.gtf Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.gtf \
     > hg38.gtf
 
 rm Human_hg38-rDNA_genome_v1.0.tar.gz
