@@ -3,7 +3,7 @@
 ### Steps
 
 1. [Installing of the scripts](#Installing-of-the-scripts)
-    1. [Change directory to `projects` folder](#Change-directory-to-projects-folder)
+    1. [Change directory to `project` folder](#Change-directory-to-project-folder)
     2. [Clone repository](#Clone-repository)
 2. [Updating scripts](#Updating-scripts)
 3. [Downloading genomes](#Downloading-genomes)
@@ -18,16 +18,10 @@
 
 ## Installing of the scripts
 
-### Change directory to projects folder
+### Change directory to project folder
 
 ```shell
-cd ~/projects/def-bmartin
-```
-
-For Rorqual server, use
-
-```shell
-cd ~/links/projects/def-bmartin
+cd /project/def-bmartin
 ```
 
 ### Clone repository
@@ -41,14 +35,7 @@ git clone https://github.com/BenMartinLab/genomes.git
 Go to the genomes scripts folder and run `git pull`.
 
 ```shell
-cd ~/projects/def-bmartin/genomes
-git pull
-```
-
-For Rorqual server, use
-
-```shell
-cd ~/links/projects/def-bmartin/genomes
+cd /project/def-bmartin/genomes
 git pull
 ```
 
@@ -57,13 +44,7 @@ git pull
 First, set the location of the genomes scripts.
 
 ```shell
-genomes_folder=~/projects/def-bmartin/genomes
-```
-
-For Rorqual server, use
-
-```shell
-genomes_folder=~/links/projects/def-bmartin/genomes
+genomes_folder=/project/def-bmartin/genomes
 ```
 
 Then, run the desired download script. For example:
@@ -87,13 +68,7 @@ bash $genomes_folder/human/create-hg38-spike-dm6-ensembl-115.sh
 Add genomes scripts folder to your PATH.
 
 ```shell
-export PATH=~/projects/def-bmartin/genomes:$PATH
-```
-
-For Rorqual server, use
-
-```shell
-export PATH=~/links/projects/def-bmartin/genomes:$PATH
+export PATH=/project/def-bmartin/genomes:$PATH
 ```
 
 Move to the desired genome.
@@ -137,13 +112,7 @@ sbatch --mem=40G star-index.sh -f $genome.fa -g $genome.gtf
 Add PRO-seq scripts folder to your PATH.
 
 ```shell
-export PATH=~/projects/def-bmartin/scripts/proseq:$PATH
-```
-
-For Rorqual server, use
-
-```shell
-export PATH=~/links/projects/def-bmartin/scripts/proseq:$PATH
+export PATH=/project/def-bmartin/scripts/proseq:$PATH
 ```
 
 Move to desired genome.

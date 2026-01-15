@@ -19,13 +19,7 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
 First, set the location of the genomes scripts.
 
 ```shell
-genomes_folder=~/projects/def-bmartin/genomes
-```
-
-For Rorqual server, use
-
-```shell
-genomes_folder=~/links/projects/def-bmartin/genomes
+genomes_folder=/project/def-bmartin/genomes
 ```
 
 Then, locate the genome that you want. A good command is to use `ls` to find the desired main genome.
