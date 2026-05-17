@@ -55,7 +55,7 @@ python "${replace_path}/replace-chromosome.py" --delete \
 bedToGenePred Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.bed /dev/stdout \
     | grep chrR \
     | genePredToGtf file /dev/stdin Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.gtf
-awk -F '\t' '{gene_id=gensub(/.*gene_id "([a-zA-Z0-9_\-\(\)]+)".*/,"\\1","1",$9);
+awk -F '\t' '{gene_id=gensub(/.*gene_id "([^"]+)".*/,"\\1","1",$9);
     print ($3=="transcript")? $0" gene_name \""gene_id"\"; transcript_biotype \"protein_coding\";" : $0}' \
     Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.gtf \
     > Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.biotype.gtf
