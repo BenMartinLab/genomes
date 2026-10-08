@@ -11,6 +11,7 @@
 5. [Creating indexes for bowtie2, STAR, etc...](#Creating-indexes-for-bowtie2-STAR-etc)
    1. [Bowtie2](#Bowtie2)
    2. [STAR](#STAR)
+   3. [kallisto](#kallisto)
 6. [Creating pipeline specific files](#Creating-pipeline-specific-files)
    1. [PRO-seq](#PRO-seq)
       1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
@@ -103,6 +104,13 @@ sbatch bowtie2-build.sh $genome.fa bowtie2/$genome
 
 ```shell
 sbatch --mem=40G star-index.sh -f $genome.fa -g $genome.gtf
+```
+
+### kallisto
+
+```shell
+mkdir kallisto
+sbatch kallisto-index.sh -i kallisto/$genome.cdna.idx $genome.cdna.fa
 ```
 
 ## Creating pipeline specific files

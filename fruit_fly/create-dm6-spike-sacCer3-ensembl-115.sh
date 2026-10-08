@@ -21,8 +21,11 @@ rm -rf dm6-spike-sacCer3-ensembl-115/*
 cd dm6-spike-sacCer3-ensembl-115/
 
 cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.fa" .
+cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
 cp "${script_path}/../yeast/sacCer3-ensembl-115/sacCer3.fa" .
+cp "${script_path}/../yeast/sacCer3-ensembl-115/sacCer3.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_yeast/g' sacCer3.fa
+sed -r -i.bak 's/(^>[^ ]*)/\1_yeast/g' sacCer3.cdna.fa
 
 cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.gtf" .
 cp "${script_path}/../yeast/sacCer3-ensembl-115/sacCer3.gtf" .
@@ -43,10 +46,14 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     sacCer3.fa \
     > sacCer3.chrom.sizes
+cat dm6.cdna.fa \
+    sacCer3.cdna.fa \
+    > dm6-spike-sacCer3.cdna.fa
 
 cat dm6.gtf \
     sacCer3.gtf \
     > dm6-spike-sacCer3.gtf
 
 rm sacCer3.fa.bak
+rm sacCer3.cdna.fa.bak
 rm sacCer3.gtf.bak

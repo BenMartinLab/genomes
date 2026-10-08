@@ -23,6 +23,7 @@ rm -rf dm6-ensembl-115/*
 cd dm6-ensembl-115
 
 wget https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa.gz
+wget https://ftp.ensembl.org/pub/release-115/fasta/drosophila_melanogaster/cdna/Drosophila_melanogaster.BDGP6.54.cdna.all.fa.gz
 wget https://ftp.ensembl.org/pub/release-115/gtf/drosophila_melanogaster/Drosophila_melanogaster.BDGP6.54.115.gtf.gz
 wget https://hgdownload.gi.ucsc.edu/goldenPath/dm6/database/chromAlias.txt.gz
 
@@ -42,6 +43,7 @@ python "${replace_path}/replace-chromosome.py" --delete \
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     dm6.fa \
     > dm6.chrom.sizes
+mv Drosophila_melanogaster.BDGP6.54.cdna.all.fa dm6.cdna.fa
 
 echo "Filtering fruit fly GTF file"
 python "${filter_path}/filter-chromosome.py" \

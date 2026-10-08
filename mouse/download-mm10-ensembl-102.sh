@@ -22,8 +22,9 @@ mkdir -p mm10-ensembl-102
 rm -rf mm10-ensembl-102/*
 cd mm10-ensembl-102
 
-wget ftp://ftp.ensembl.org/pub/release-102/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz
-wget ftp://ftp.ensembl.org/pub/release-102/gtf/mus_musculus/Mus_musculus.GRCm38.102.gtf.gz
+wget https://ftp.ensembl.org/pub/release-102/fasta/mus_musculus/dna/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz
+wget https://ftp.ensembl.org/pub/release-102/fasta/mus_musculus/cdna/Mus_musculus.GRCm38.cdna.all.fa.gz
+wget https://ftp.ensembl.org/pub/release-102/gtf/mus_musculus/Mus_musculus.GRCm38.102.gtf.gz
 wget https://hgdownload.gi.ucsc.edu/goldenPath/mm10/database/chromAlias.txt.gz
 
 echo "Decompressing files"
@@ -41,6 +42,7 @@ python "${replace_path}/replace-chromosome.py" --delete \
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     mm10.fa \
     > mm10.chrom.sizes
+mv Mus_musculus.GRCm38.cdna.all.fa mm10.cdna.fa
 
 echo "Filtering mouse GTF file"
 python "${filter_path}/filter-chromosome.py" \

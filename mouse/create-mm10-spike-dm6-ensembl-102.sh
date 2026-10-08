@@ -21,8 +21,11 @@ rm -rf mm10-spike-dm6-ensembl-102/*
 cd mm10-spike-dm6-ensembl-102/
 
 cp "${script_path}/../mouse/mm10-ensembl-102/mm10.fa" .
+cp "${script_path}/../mouse/mm10-ensembl-102/mm10.cdna.fa" .
 cp "${script_path}/../fruit_fly/dm6-ensembl-102/dm6.fa" .
+cp "${script_path}/../fruit_fly/dm6-ensembl-102/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.fa
+sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.cdna.fa
 
 cp "${script_path}/../mouse/mm10-ensembl-102/mm10.gtf" .
 cp "${script_path}/../fruit_fly/dm6-ensembl-102/dm6.gtf" .
@@ -43,10 +46,14 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     dm6.fa \
     > dm6.chrom.sizes
+cat mm10.cdna.fa \
+    dm6.cdna.fa \
+    > mm10-spike-dm6.cdna.fa
 
 cat mm10.gtf \
     dm6.gtf \
     > mm10-spike-dm6.gtf
 
 rm dm6.fa.bak
+rm dm6.cdna.fa.bak
 rm dm6.gtf.bak

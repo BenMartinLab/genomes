@@ -21,8 +21,11 @@ rm -rf hg38-spike-dm6-ensembl-115/*
 cd hg38-spike-dm6-ensembl-115/
 
 cp "${script_path}/../human/hg38-ensembl-115/hg38.fa" .
+cp "${script_path}/../human/hg38-ensembl-115/hg38.cdna.fa" .
 cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.fa" .
+cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.fa
+sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.cdna.fa
 
 cp "${script_path}/../human/hg38-ensembl-115/hg38.gtf" .
 cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.gtf" .
@@ -43,10 +46,14 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     dm6.fa \
     > dm6.chrom.sizes
+cat hg38.cdna.fa \
+    dm6.cdna.fa \
+    > hg38-spike-dm6.cdna.fa
 
 cat hg38.gtf \
     dm6.gtf \
     > hg38-spike-dm6.gtf
 
 rm dm6.fa.bak
+rm dm6.cdna.fa.bak
 rm dm6.gtf.bak

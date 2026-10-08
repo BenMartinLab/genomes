@@ -23,6 +23,7 @@ rm -rf hg38-ensembl-115/*
 cd hg38-ensembl-115
 
 wget https://ftp.ensembl.org/pub/release-115/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+wget https://ftp.ensembl.org/pub/release-115/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz
 wget https://ftp.ensembl.org/pub/release-115/gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz
 wget https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/chromAlias.txt.gz
 
@@ -41,6 +42,7 @@ python "${replace_path}/replace-chromosome.py" --delete \
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     hg38.fa \
     > hg38.chrom.sizes
+mv Homo_sapiens.GRCh38.cdna.all.fa hg38.cdna.fa
 
 echo "Filtering human GTF file"
 python "${filter_path}/filter-chromosome.py" \

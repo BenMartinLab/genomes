@@ -23,6 +23,7 @@ rm -rf sacCer3-ensembl-115/*
 cd sacCer3-ensembl-115
 
 wget https://ftp.ensembl.org/pub/release-115/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
+wget https://ftp.ensembl.org/pub/release-115/fasta/saccharomyces_cerevisiae/cdna/Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa.gz
 wget https://ftp.ensembl.org/pub/release-115/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.115.gtf.gz
 wget https://hgdownload.gi.ucsc.edu/goldenPath/sacCer3/database/chromAlias.txt.gz
 
@@ -41,6 +42,7 @@ python "${replace_path}/replace-chromosome.py" --delete \
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     sacCer3.fa \
     > sacCer3.chrom.sizes
+mv Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa sacCer3.cdna.fa
 
 echo "Filtering yeast GTF file"
 python "${filter_path}/filter-chromosome.py" \
