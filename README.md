@@ -11,6 +11,7 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
 3. [Copying indexes to scratch for bowtie2, STAR, etc...](#Copying-indexes-to-scratch-for-bowtie2-STAR-etc)
    1. [bowtie2](#bowtie2)
    2. [STAR](#STAR)
+   3. [kallisto](#kallisto)
 4. [Copying pipeline specific files to scratch](#Copying-pipeline-specific-files-to-scratch)
    1. [PRO-seq](#PRO-seq)
     
@@ -81,6 +82,15 @@ cp $genome_location/star/* star
 ```
 
 To use the index, use `--genomeDir star` for the `STAR` command.
+
+### kallisto
+
+```shell
+mkdir kallisto
+cp $genome_location/kallisto/* kallisto
+```
+
+To use the index, use `--index=kallisto/hg38.cdna.idx` for the `kallisto bus` or `kallisto quant` command.
 
 ## Copying pipeline specific files to scratch
 
