@@ -13,6 +13,7 @@ echo
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
+genomes_path="${script_path}/.."
 
 echo "Merging fruit fly genome dm6 (BDGP6.54 release 115 from Ensembl) with yeast genome sacCer3 (R64-1-1 release 115 from Ensembl)"
 
@@ -20,15 +21,15 @@ mkdir -p dm6-spike-sacCer3-ensembl-115
 rm -rf dm6-spike-sacCer3-ensembl-115/*
 cd dm6-spike-sacCer3-ensembl-115/
 
-cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.fa" .
-cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
-cp "${script_path}/../yeast/sacCer3-ensembl-115/sacCer3.fa" .
-cp "${script_path}/../yeast/sacCer3-ensembl-115/sacCer3.cdna.fa" .
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.fa" .
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
+cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.fa" .
+cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_yeast/g' sacCer3.fa
 sed -r -i.bak 's/(^>[^ ]*)/\1_yeast/g' sacCer3.cdna.fa
 
-cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.gtf" .
-cp "${script_path}/../yeast/sacCer3-ensembl-115/sacCer3.gtf" .
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.gtf" .
+cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.gtf" .
 mv sacCer3.gtf sacCer3.gtf.bak
 awk -F '\t' -v OFS="\t" '$0 !~ /#!/ {$1=$1"_yeast"; print $0}' \
     sacCer3.gtf.bak \
@@ -53,6 +54,7 @@ cat dm6.cdna.fa \
 cat dm6.gtf \
     sacCer3.gtf \
     > dm6-spike-sacCer3.gtf
+"${genomes_path}"/transcript-bed.sh --gtf dm6-spike-sacCer3.gtf --output dm6-spike-sacCer3-transcripts.bed
 
 rm sacCer3.fa.bak
 rm sacCer3.cdna.fa.bak

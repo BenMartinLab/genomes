@@ -13,8 +13,7 @@ echo
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
-filter_path="${script_path}/.."
-replace_path="${script_path}/.."
+genomes_path="${script_path}/.."
 
 echo "Downloading human genome hg38 (GRCh38.p14 release 115 from Ensembl)"
 
@@ -31,11 +30,11 @@ echo "Decompressing files"
 gunzip ./*.gz
 
 echo "Filtering human FASTA file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/human-chromosome-white-list.txt" \
   Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa \
   Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa \
   hg38.fa
@@ -45,14 +44,15 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 mv Homo_sapiens.GRCh38.cdna.all.fa hg38.cdna.fa
 
 echo "Filtering human GTF file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/human-chromosome-white-list.txt" \
   Homo_sapiens.GRCh38.115.gtf \
   Homo_sapiens.GRCh38.115.filtered.gtf
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Homo_sapiens.GRCh38.115.filtered.gtf \
   hg38.gtf
+"${genomes_path}"/transcript-bed.sh --gtf hg38.gtf --output hg38-transcripts.bed
 
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa

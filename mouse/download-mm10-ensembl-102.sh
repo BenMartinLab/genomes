@@ -13,8 +13,7 @@ echo
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
-filter_path="${script_path}/.."
-replace_path="${script_path}/.."
+genomes_path="${script_path}/.."
 
 echo "Downloading mouse genome mm10 (GRCm38.p6 release 102 from Ensembl)"
 
@@ -31,11 +30,11 @@ echo "Decompressing files"
 gunzip ./*.gz
 
 echo "Filtering mouse FASTA file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/mouse-chromosome-white-list.txt" \
   Mus_musculus.GRCm38.dna.primary_assembly.fa \
   Mus_musculus.GRCm38.dna.primary_assembly.filtered.fa
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Mus_musculus.GRCm38.dna.primary_assembly.filtered.fa \
   mm10.fa
@@ -45,14 +44,15 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 mv Mus_musculus.GRCm38.cdna.all.fa mm10.cdna.fa
 
 echo "Filtering mouse GTF file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/mouse-chromosome-white-list.txt" \
   Mus_musculus.GRCm38.102.gtf \
   Mus_musculus.GRCm38.102.filtered.gtf
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Mus_musculus.GRCm38.102.filtered.gtf \
   mm10.gtf
+"${genomes_path}"/transcript-bed.sh --gtf mm10.gtf --output mm10-transcripts.bed
 
 rm Mus_musculus.GRCm38.dna.primary_assembly.fa
 rm Mus_musculus.GRCm38.dna.primary_assembly.filtered.fa

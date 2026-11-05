@@ -13,6 +13,7 @@ echo
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
+genomes_path="${script_path}/.."
 
 echo "Merging human genome hg38 (GRCh38.p14 release 115 from Ensembl) with fruit fly genome dm6 (BDGP6.54 release 115 from Ensembl)"
 
@@ -20,15 +21,15 @@ mkdir -p hg38-spike-dm6-ensembl-115
 rm -rf hg38-spike-dm6-ensembl-115/*
 cd hg38-spike-dm6-ensembl-115/
 
-cp "${script_path}/../human/hg38-ensembl-115/hg38.fa" .
-cp "${script_path}/../human/hg38-ensembl-115/hg38.cdna.fa" .
-cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.fa" .
-cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
+cp "${genomes_path}/human/hg38-ensembl-115/hg38.fa" .
+cp "${genomes_path}/human/hg38-ensembl-115/hg38.cdna.fa" .
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.fa" .
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.fa
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.cdna.fa
 
-cp "${script_path}/../human/hg38-ensembl-115/hg38.gtf" .
-cp "${script_path}/../fruit_fly/dm6-ensembl-115/dm6.gtf" .
+cp "${genomes_path}/human/hg38-ensembl-115/hg38.gtf" .
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.gtf" .
 mv dm6.gtf dm6.gtf.bak
 awk -F '\t' -v OFS="\t" '$0 !~ /#!/ {$1=$1"_fly"; print $0}' \
     dm6.gtf.bak \
@@ -53,6 +54,7 @@ cat hg38.cdna.fa \
 cat hg38.gtf \
     dm6.gtf \
     > hg38-spike-dm6.gtf
+"${genomes_path}"/transcript-bed.sh --gtf hg38-spike-dm6.gtf --output hg38-spike-dm6-transcripts.bed
 
 rm dm6.fa.bak
 rm dm6.cdna.fa.bak

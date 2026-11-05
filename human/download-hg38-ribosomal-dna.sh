@@ -14,8 +14,7 @@ echo
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
-filter_path="${script_path}/.."
-replace_path="${script_path}/.."
+genomes_path="${script_path}/.."
 
 echo "Downloading human genome hg38 optimized for ribosomal DNA (https://github.com/vikramparalkar/rDNA-Mapping-Genomes)"
 
@@ -35,7 +34,7 @@ gunzip Homo_sapiens.GRCh38.115.gtf.gz
 gunzip chromAlias.txt.gz
 
 echo "Filtering human FASTA file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/human-chromosome-white-list.txt" \
   Human_hg38-rDNA_genome_v1.0/hg38-rDNA_v1.0.fa \
   hg38.fa
@@ -44,11 +43,11 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
     > hg38.chrom.sizes
 
 echo "Filtering human GTF file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/human-chromosome-white-list.txt" \
   Homo_sapiens.GRCh38.115.gtf \
   Homo_sapiens.GRCh38.115.filtered.gtf
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Homo_sapiens.GRCh38.115.filtered.gtf \
   hg38-nonR.gtf
@@ -61,6 +60,7 @@ awk -F '\t' '{gene_id=gensub(/.*gene_id "([^"]+)".*/,"\\1","1",$9);
     > Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.biotype.gtf
 cat hg38-nonR.gtf Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.biotype.gtf \
     > hg38.gtf
+"${genomes_path}"/transcript-bed.sh --gtf hg38.gtf --output hg38-transcripts.bed
 
 rm Human_hg38-rDNA_genome_v1.0.tar.gz
 rm Human_hg38-rDNA_genome_v1.0_annotation.tar.gz

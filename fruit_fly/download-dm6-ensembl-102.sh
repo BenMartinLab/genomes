@@ -13,8 +13,7 @@ echo
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
-filter_path="${script_path}/.."
-replace_path="${script_path}/.."
+genomes_path="${script_path}/.."
 
 echo "Downloading fruit fly genome dm6 (BDGP6.28 release 102 from Ensembl)"
 
@@ -32,11 +31,11 @@ gunzip ./*.gz
 
 echo "Filtering fruit fly FASTA file"
 sed -i.bak '1s/^/mitochondrion_genome\tchrM\tensembl\n/' chromAlias.txt
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/fruit-fly-chromosome-white-list.txt" \
   Drosophila_melanogaster.BDGP6.28.dna.toplevel.fa \
   Drosophila_melanogaster.BDGP6.28.dna.toplevel.filtered.fa
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Drosophila_melanogaster.BDGP6.28.dna.toplevel.filtered.fa \
   dm6.fa
@@ -46,14 +45,15 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 mv Drosophila_melanogaster.BDGP6.28.cdna.all.fa dm6.cdna.fa
 
 echo "Filtering fruit fly GTF file"
-python "${filter_path}/filter-chromosome.py" \
+python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/fruit-fly-chromosome-white-list.txt" \
   Drosophila_melanogaster.BDGP6.28.102.gtf \
   Drosophila_melanogaster.BDGP6.28.102.filtered.gtf
-python "${replace_path}/replace-chromosome.py" --delete \
+python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Drosophila_melanogaster.BDGP6.28.102.filtered.gtf \
   dm6.gtf
+"${genomes_path}"/transcript-bed.sh --gtf dm6.gtf --output dm6-transcripts.bed
 
 rm Drosophila_melanogaster.BDGP6.28.dna.toplevel.fa
 rm Drosophila_melanogaster.BDGP6.28.dna.toplevel.filtered.fa
