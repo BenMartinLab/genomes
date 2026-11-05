@@ -14,7 +14,7 @@ def file_path(string):
         raise FileNotFoundError(string)
 
 
-def main(argv: list[str] = None):
+def main(argv: list[str] | None = None):
     parser = argparse.ArgumentParser(description="Converts chromosomes in input file.")
     parser.add_argument('input', nargs='?', type=argparse.FileType('r'), default=sys.stdin,
                         help="Input file with chromosomes to convert")

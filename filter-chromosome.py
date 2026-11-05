@@ -7,7 +7,7 @@ from typing import TextIO
 from collections.abc import Callable
 
 
-def main(argv: list[str] = None):
+def main(argv: list[str] | None = None):
     parser = argparse.ArgumentParser(description="Filters chromosomes and other annotations present in input file.")
     parser.add_argument('input', nargs='?', type=argparse.FileType('r'), default=sys.stdin,
                         help="Input file with chromosomes to filter")
