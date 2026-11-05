@@ -5,8 +5,7 @@
 #SBATCH --mem=12G
 #SBATCH --output=bowtie2-build-%A.out
 
-# exit when any command fails
-set -e
+set -euo pipefail
 
 if [[ -n "$CC_CLUSTER" ]]
 then

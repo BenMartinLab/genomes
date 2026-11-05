@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# exit when any command fails
-set -e
+set -euo pipefail
 
 if [[ -n "$CC_CLUSTER" ]]
 then
