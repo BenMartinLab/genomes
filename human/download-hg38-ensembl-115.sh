@@ -52,7 +52,7 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Homo_sapiens.GRCh38.115.filtered.gtf \
   hg38.gtf
-"${genomes_path}"/transcript-bed.sh --gtf hg38.gtf --output hg38-transcripts.bed
+"${genomes_path}"/transcript-bed.sh --quiet --gtf hg38.gtf --output hg38-transcripts.bed
 
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa

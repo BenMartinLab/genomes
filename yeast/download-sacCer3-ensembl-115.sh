@@ -52,7 +52,7 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Saccharomyces_cerevisiae.R64-1-1.115.filtered.gtf \
   sacCer3.gtf
-"${genomes_path}"/transcript-bed.sh --gtf sacCer3.gtf --output sacCer3-transcripts.bed
+"${genomes_path}"/transcript-bed.sh --quiet --gtf sacCer3.gtf --output sacCer3-transcripts.bed
 
 rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.filtered.fa

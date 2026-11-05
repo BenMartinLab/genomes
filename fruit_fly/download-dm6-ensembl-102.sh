@@ -53,7 +53,7 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Drosophila_melanogaster.BDGP6.28.102.filtered.gtf \
   dm6.gtf
-"${genomes_path}"/transcript-bed.sh --gtf dm6.gtf --output dm6-transcripts.bed
+"${genomes_path}"/transcript-bed.sh --quiet --gtf dm6.gtf --output dm6-transcripts.bed
 
 rm Drosophila_melanogaster.BDGP6.28.dna.toplevel.fa
 rm Drosophila_melanogaster.BDGP6.28.dna.toplevel.filtered.fa

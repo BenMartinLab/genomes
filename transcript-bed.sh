@@ -30,6 +30,7 @@ show_help() {
     echo "  -g, --gtf       FILE       GTF file (required)"
     echo "  -o, --output    FILE       Output file (required)"
     echo "  -d, --dry-run              Print commands but do not execute"
+    echo "  -q, --quiet                Don't show messages"
     echo "  -h, --help                 Show this help"
     echo
     echo "Example:"
@@ -43,6 +44,7 @@ show_help() {
 ###############################################################################
 
 dry_run=false
+quiet=false
 
 ###############################################################################
 # Manual argument parsing (safe, collision-free)
@@ -70,6 +72,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -d|--dry-run)
             dry_run=true
+            shift
+            ;;
+        -q|--quiet)
+            quiet=true
             shift
             ;;
         -h|--help)
@@ -106,26 +112,28 @@ fi
 # Logging + SLURM metadata + environment dump
 ###############################################################################
 
-echo "------------------------------------------------------------"
-echo "$script_name started at: $(date)"
-echo "Host: $(hostname)"
-echo "User: $USER"
-echo "Script: $script_name"
-echo
-echo "SLURM metadata:"
-echo "  Job ID:        ${SLURM_JOB_ID:-N/A}"
-echo "  Array Task ID: ${SLURM_ARRAY_TASK_ID:-N/A}"
-echo "  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}"
-echo "  Node:          ${SLURM_NODELIST:-N/A}"
-echo
-echo "Environment dump:"
-env | sort
-echo "------------------------------------------------------------"
-echo
-echo "GTF:         $gtf"
-echo "Output:      $output"
-echo "Dry-run:     $dry_run"
-echo
+if [[ "${quiet:-}" == "false" ]]; then
+    echo "------------------------------------------------------------"
+    echo "$script_name started at: $(date)"
+    echo "Host: $(hostname)"
+    echo "User: $USER"
+    echo "Script: $script_name"
+    echo
+    echo "SLURM metadata:"
+    echo "  Job ID:        ${SLURM_JOB_ID:-N/A}"
+    echo "  Array Task ID: ${SLURM_ARRAY_TASK_ID:-N/A}"
+    echo "  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}"
+    echo "  Node:          ${SLURM_NODELIST:-N/A}"
+    echo
+    echo "Environment dump:"
+    env | sort
+    echo "------------------------------------------------------------"
+    echo
+    echo "GTF:         $gtf"
+    echo "Output:      $output"
+    echo "Dry-run:     $dry_run"
+    echo
+fi
 
 
 ###############################################################################
@@ -145,14 +153,16 @@ cmd2=(
                 print $1,$4,$5,transcript_id,0,$7}'
 )
 
-echo "Command:"
-printf " %q " "${cmd1[@]}"
-printf " | "
-printf " %q " "${cmd2[@]}"
-printf " > "
-printf " %q " "$output"
-echo
-echo
+if [[ "$dry_run" == true ]] || [[ "${quiet:-}" == "false" ]]; then
+  echo "Command:"
+  printf " %q " "${cmd1[@]}"
+  printf " | "
+  printf " %q " "${cmd2[@]}"
+  printf " > "
+  printf " %q " "$output"
+  echo
+  echo
+fi
 
 ###############################################################################
 # Execute command

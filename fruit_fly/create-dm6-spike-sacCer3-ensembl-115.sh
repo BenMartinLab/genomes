@@ -54,7 +54,7 @@ cat dm6.cdna.fa \
 cat dm6.gtf \
     sacCer3.gtf \
     > dm6-spike-sacCer3.gtf
-"${genomes_path}"/transcript-bed.sh --gtf dm6-spike-sacCer3.gtf --output dm6-spike-sacCer3-transcripts.bed
+"${genomes_path}"/transcript-bed.sh --quiet --gtf dm6-spike-sacCer3.gtf --output dm6-spike-sacCer3-transcripts.bed
 
 rm sacCer3.fa.bak
 rm sacCer3.cdna.fa.bak
