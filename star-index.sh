@@ -72,7 +72,7 @@ while [[ $# -gt 0 ]]; do
             genome="$2"
             shift 2
             ;;
-        --genome=*)
+        --genomeFastaFiles=*)
             genome="${1#--genomeFastaFiles=}"
             shift
             ;;
@@ -117,7 +117,7 @@ done
 # Validate arguments
 ###############################################################################
 
-if [[ -f "${genome:-}" ]]; then
+if ! [[ -f "${genome:-}" ]]; then
     echo "Error: Genome '${genome:-}' does not exist." >&2
     exit 1
 fi
