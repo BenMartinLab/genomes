@@ -103,7 +103,10 @@ sbatch bowtie2-build.sh $genome.fa bowtie2/$genome
 > If `star-index.sh` job fails due to memory, change the value of `--mem`.
 
 ```shell
-sbatch --mem=40G star-index.sh -f $genome.fa -g $genome.gtf
+sbatch --mem=40G star-index.sh \
+    --genomeDir star \
+    --genomeFastaFiles $genome.fa \
+    --sjdbGTFfile $genome.gtf
 ```
 
 ### kallisto

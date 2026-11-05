@@ -98,18 +98,8 @@ while [[ $# -gt 0 ]]; do
             extra_parameters+=("$@")
             break
             ;;
-        --*=*)
-            # Long option with equals: --option=value
-            extra_parameters+=("$1")
-            shift
-            ;;
-        -*)
-            # Unknown short option → passthrough to kallisto
-            extra_parameters+=("$1")
-            shift
-            ;;
         *)
-            # Positional argument → passthrough
+            # Unknown argument → passthrough
             extra_parameters+=("$1")
             shift
             ;;
@@ -120,7 +110,7 @@ done
 # Use outTmpDir parameter only if specified or if SLURM is used, otherwise use kallisto default value.
 ###############################################################################
 
-if [[ -n "$tmp_dir" ]]
+if [[ -n "${tmp_dir:-}" ]]
 then
   extra_parameters=("-T" "$tmp_dir" "${extra_parameters[@]}")
 fi
@@ -130,7 +120,7 @@ fi
 ###############################################################################
 
 echo "------------------------------------------------------------"
-echo "kallisto-index.sh started at: $(date)"
+echo "$script_name started at: $(date)"
 echo "Host: $(hostname)"
 echo "User: $USER"
 echo "Script: $script_name"
@@ -145,9 +135,13 @@ echo "Environment dump:"
 env | sort
 echo "------------------------------------------------------------"
 echo
+echo "Threads:     $threads"
+echo "Tmp dir:     $tmp_dir"
+echo "Dry-run:     $dry_run"
+echo
 
 ###############################################################################
-# Build kallisto command
+# Build command
 ###############################################################################
 
 cmd=(
@@ -156,26 +150,17 @@ cmd=(
     "${extra_parameters[@]}"
 )
 
-###############################################################################
-# Dry-run mode
-###############################################################################
-
-echo "Threads:     $threads"
-echo "Tmp dir:     $tmp_dir"
-echo "Dry-run:     $dry_run"
-echo
 echo "Command:"
 printf "  %q " "${cmd[@]}"
 echo
 echo
 
+###############################################################################
+# Execute command
+###############################################################################
+
 if [[ "$dry_run" == true ]]; then
     echo "Dry-run mode enabled — command not executed."
     exit 0
 fi
-
-###############################################################################
-# Execute kallisto
-###############################################################################
-
 "${cmd[@]}"
