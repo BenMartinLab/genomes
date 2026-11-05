@@ -127,7 +127,7 @@ fi
 ###############################################################################
 
 if [[ -z "${num_bases:-}" ]]; then
-  genome_fai=$(samtools faidx "$genome")
+  genome_fai=$(samtools faidx -o - "$genome")
   num_bases=$(awk '{sum = sum + $2}
       END{if ((log(sum)/log(2))/2 - 1 > 14) {printf "%.0f", 14}
       else {printf "%.0f", (log(sum)/log(2))/2 - 1}}' \
