@@ -125,8 +125,10 @@ if [[ "${quiet:-}" == "false" ]]; then
     echo "  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}"
     echo "  Node:          ${SLURM_NODELIST:-N/A}"
     echo
-    echo "Environment dump:"
-    env | sort
+    if [[ "${debug:-}" == true ]]; then
+        echo "Environment dump:"
+        env | sort
+    fi
     echo "------------------------------------------------------------"
     echo
     echo "GTF:         $gtf"
