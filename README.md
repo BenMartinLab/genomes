@@ -18,28 +18,22 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
     
 ## Finding desired genome
 
-First, set the location of the genomes scripts.
+Locate the genome that you want. A good command is to use `ls` to find the desired main genome.
 
 ```shell
-genomes_folder=/project/def-bmartin/genomes
-```
-
-Then, locate the genome that you want. A good command is to use `ls` to find the desired main genome.
-
-```shell
-ls $genomes_folder
+ls /project/def-bmartin/genomes
 ```
 
 For example, if you want a human genome, you can look at the `human` sub-folder.
 
 ```shell
-ls $genomes_folder/human
+ls /project/def-bmartin/genomes/human
 ```
 
 Assuming, you want the Ensembl release version 115 of the human genome, the folder containing the genome will be.
 
 ```shell
-ls $genomes_folder/human/hg38-ensembl-115
+ls /project/def-bmartin/genomes/human/hg38-ensembl-115
 ```
 
 You can save the genome location as a variable to simplify later commands.
@@ -48,7 +42,7 @@ You can save the genome location as a variable to simplify later commands.
 > Change `human/hg38-ensembl-115` by the genome you want to use.
 
 ```shell
-genome_location=$genomes_folder/human/hg38-ensembl-115
+genome_location=/project/def-bmartin/genomes/human/hg38-ensembl-115
 ```
 
 ## Copying genome to scratch

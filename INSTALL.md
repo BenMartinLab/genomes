@@ -42,16 +42,16 @@ git pull
 
 ## Downloading genomes
 
-First, set the location of the genomes scripts.
+First, go the genomes scripts folder.
 
 ```shell
-genomes_folder=/project/def-bmartin/genomes
+cd /project/def-bmartin/genomes
 ```
 
 Then, run the desired download script. For example:
 
 ```shell
-bash $genomes_folder/human/download-hg38-ensembl-115.sh
+bash ./human/download-hg38-ensembl-115.sh
 ```
 
 ## Genomes with spike-in
@@ -61,7 +61,7 @@ First, check that the individual genomes are already downloaded.
 Then, run the desired script. For example:
 
 ```shell
-bash $genomes_folder/human/create-hg38-spike-dm6-ensembl-115.sh
+bash ./human/create-hg38-spike-dm6-ensembl-115.sh
 ```
 
 ## Creating indexes for bowtie2, STAR, etc...
@@ -78,7 +78,8 @@ Move to the desired genome.
 > Change `human/hg38-ensembl-115` by the genome you want to use.
 
 ```shell
-cd $genomes_folder/human/hg38-ensembl-115
+cd /project/def-bmartin/genomes
+cd human/hg38-ensembl-115
 ```
 
 Set genome name in a variable. It can be a genome with spike-in like `hg38-spike-dm6`.
@@ -132,7 +133,8 @@ Move to desired genome.
 > Change `human/hg38-ensembl-115` by the genome you want to use.
 
 ```shell
-cd $genomes_folder/human/hg38-ensembl-115
+cd /project/def-bmartin/genomes
+cd human/hg38-ensembl-115
 ```
 
 Set genome name in a variable. It can be a genome with spike-in like `hg38-spike-dm6`.
