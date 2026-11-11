@@ -3,7 +3,7 @@
 #SBATCH --time=03:00:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
-#SBATCH --output=transcript-bed-%A.out
+#SBATCH --output=slamdunk-bed-%A.out
 
 set -euo pipefail
 
