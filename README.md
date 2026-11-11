@@ -14,6 +14,7 @@ To install the scripts on Alliance Canada servers and download genomes, see [INS
    3. [kallisto](#kallisto)
 4. [Copying pipeline specific files to scratch](#Copying-pipeline-specific-files-to-scratch)
    1. [PRO-seq](#PRO-seq)
+   2. [SLAM-seq](#slam-seq)
     
 ## Finding desired genome
 
@@ -99,4 +100,11 @@ To use the index, use `--index=kallisto/hg38.cdna.idx` for the `kallisto bus` or
 ```shell
 mkdir proseq
 cp $genome_location/proseq/* proseq
+```
+
+### SLAM-seq
+
+```shell
+mkdir slamseq
+cp $genome_location/slamseq/* slamseq
 ```

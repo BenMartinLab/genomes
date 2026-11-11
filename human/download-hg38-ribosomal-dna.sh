@@ -59,7 +59,8 @@ awk -F '\t' '{gene_id=gensub(/.*gene_id "([^"]+)".*/,"\\1","1",$9);
     > Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.biotype.gtf
 cat hg38-nonR.gtf Human_hg38-rDNA_genome_v1.0_annotation/hg38-rDNA_v1.0.biotype.gtf \
     > hg38.gtf
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output hg38-slamdunk.bed
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output slamseq/hg38-slamdunk.bed
 
 rm Human_hg38-rDNA_genome_v1.0.tar.gz
 rm Human_hg38-rDNA_genome_v1.0_annotation.tar.gz

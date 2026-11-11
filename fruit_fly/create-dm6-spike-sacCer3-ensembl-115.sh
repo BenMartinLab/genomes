@@ -54,16 +54,17 @@ cat dm6.cdna.fa \
 cat dm6.gtf \
     sacCer3.gtf \
     > dm6-spike-sacCer3.gtf
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output dm6-slamdunk-tmp.bed
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf sacCer3.gtf --output sacCer3-slamdunk-tmp.bed
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output slamseq/dm6-slamdunk-tmp.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf sacCer3.gtf --output slamseq/sacCer3-slamdunk-tmp.bed
 bedtools slop -s -l 0 -r 250 \
-    -i sacCer3-slamdunk-tmp.bed \
+    -i slamseq/sacCer3-slamdunk-tmp.bed \
     -g sacCer3.chrom.sizes \
-    > sacCer3-slamdunk-slop.bed
-cat dm6-slamdunk-tmp.bed sacCer3-slamdunk-slop.bed > dm6-spike-sacCer3-slamdunk.bed
-rm dm6-slamdunk-tmp.bed
-rm sacCer3-slamdunk-tmp.bed
-rm sacCer3-slamdunk-slop.bed
+    > slamseq/sacCer3-slamdunk-slop.bed
+cat slamseq/dm6-slamdunk-tmp.bed slamseq/sacCer3-slamdunk-slop.bed > slamseq/dm6-spike-sacCer3-slamdunk.bed
+rm slamseq/dm6-slamdunk-tmp.bed
+rm slamseq/sacCer3-slamdunk-tmp.bed
+rm slamseq/sacCer3-slamdunk-slop.bed
 
 rm sacCer3.fa.bak
 rm sacCer3.cdna.fa.bak

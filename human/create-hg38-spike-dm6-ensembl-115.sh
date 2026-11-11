@@ -53,7 +53,8 @@ cat hg38.cdna.fa \
 cat hg38.gtf \
     dm6.gtf \
     > hg38-spike-dm6.gtf
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output hg38-spike-dm6-slamdunk.bed
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output slamseq/hg38-spike-dm6-slamdunk.bed
 
 rm dm6.fa.bak
 rm dm6.cdna.fa.bak
