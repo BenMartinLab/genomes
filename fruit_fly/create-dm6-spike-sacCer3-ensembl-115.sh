@@ -7,6 +7,7 @@ then
   module purge
   module load StdEnv/2023
   module load python/3.12.4
+  module load bedtools/2.31.0
 fi
 echo
 
@@ -53,7 +54,16 @@ cat dm6.cdna.fa \
 cat dm6.gtf \
     sacCer3.gtf \
     > dm6-spike-sacCer3.gtf
-"${genomes_path}"/transcript-bed.sh --quiet --gtf dm6-spike-sacCer3.gtf --output dm6-spike-sacCer3-transcripts.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output dm6-slamdunk-tmp.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf sacCer3.gtf --output sacCer3-slamdunk-tmp.bed
+bedtools slop -s -l 0 -r 250 \
+    -i sacCer3-slamdunk-tmp.bed \
+    -g sacCer3.chrom.sizes \
+    > sacCer3-slamdunk-slop.bed
+cat dm6-slamdunk-tmp.bed sacCer3-slamdunk-slop.bed > dm6-spike-sacCer3-slamdunk.bed
+rm dm6-slamdunk-tmp.bed
+rm sacCer3-slamdunk-tmp.bed
+rm sacCer3-slamdunk-slop.bed
 
 rm sacCer3.fa.bak
 rm sacCer3.cdna.fa.bak

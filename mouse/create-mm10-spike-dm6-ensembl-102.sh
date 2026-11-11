@@ -53,7 +53,7 @@ cat mm10.cdna.fa \
 cat mm10.gtf \
     dm6.gtf \
     > mm10-spike-dm6.gtf
-"${genomes_path}"/transcript-bed.sh --quiet --gtf mm10-spike-dm6.gtf --output mm10-spike-dm6-transcripts.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10-spike-dm6.gtf --output mm10-spike-dm6-slamdunk.bed
 
 rm dm6.fa.bak
 rm dm6.cdna.fa.bak

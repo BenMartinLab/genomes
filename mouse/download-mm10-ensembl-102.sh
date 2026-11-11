@@ -51,7 +51,7 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Mus_musculus.GRCm38.102.filtered.gtf \
   mm10.gtf
-"${genomes_path}"/transcript-bed.sh --quiet --gtf mm10.gtf --output mm10-transcripts.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10.gtf --output mm10-slamdunk.bed
 
 rm Mus_musculus.GRCm38.dna.primary_assembly.fa
 rm Mus_musculus.GRCm38.dna.primary_assembly.filtered.fa

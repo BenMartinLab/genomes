@@ -47,7 +47,7 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 cat hg38.gtf \
     dm6.gtf \
     > hg38-spike-dm6.gtf
-"${genomes_path}"/transcript-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output hg38-spike-dm6-transcripts.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output hg38-spike-dm6-slamdunk.bed
 
 rm dm6.fa.bak
 rm dm6.gtf.bak

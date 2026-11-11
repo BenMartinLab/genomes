@@ -7,6 +7,7 @@ then
   module purge
   module load StdEnv/2023
   module load python/3.12.4
+  module load bedtools/2.31.0
 fi
 echo
 
@@ -51,7 +52,12 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Saccharomyces_cerevisiae.R64-1-1.115.filtered.gtf \
   sacCer3.gtf
-"${genomes_path}"/transcript-bed.sh --quiet --gtf sacCer3.gtf --output sacCer3-transcripts.bed
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf sacCer3.gtf --output sacCer3-slamdunk-tmp.bed
+bedtools slop -s -l 0 -r 250 \
+    -i sacCer3-slamdunk-tmp.bed \
+    -g sacCer3.chrom.sizes \
+    > sacCer3-slamdunk.bed
+rm sacCer3-slamdunk-tmp.bed
 
 rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
 rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.filtered.fa

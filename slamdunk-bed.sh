@@ -145,20 +145,32 @@ fi
 # shellcheck disable=SC2016
 cmd1=(
     awk -F '\t' -v OFS='\t'
-    '$3 ~ /.*RNA/ || $3 == "pseudogene"'
+    '{
+        transcript_id=gensub(/.*transcript_id "([a-zA-Z0-9_\-\(\)]+)".*/,"\\1","1",$9);
+        transcript_biotype=gensub(/.*transcript_biotype "([a-zA-Z0-9_\-\(\)]+)".*/,"\\1","1",$9);
+
+        # Use only transcripts type.
+        if ($3 == "transcript") {
+            # Use only protein_coding (mRNA), *RNA or pseudogene biotype.
+            if (transcript_biotype ~ /.*RNA/ || transcript_biotype == "protein_coding" || transcript_biotype == "pseudogene") {
+                print $1,$4,$5,transcript_id,0,$7
+            }
+        }
+    }'
     "$gtf"
 )
-# shellcheck disable=SC2016
 cmd2=(
-    awk -F '\t' -v OFS='\t'
-    '{transcript_id=gensub(/.*transcript_id "([a-zA-Z0-9_\-\(\)]+)".*/,"\\1","1",$9);
-                print $1,$4,$5,transcript_id,0,$7}'
+    sort "-k1,1" "-k2,2n"
 )
+
+###############################################################################
+# Execute command
+###############################################################################
 
 if [[ "$dry_run" == true ]] || [[ "${quiet:-}" == "false" ]]; then
   echo "Command:"
   printf " %q " "${cmd1[@]}"
-  printf " | "
+  printf " | LC_ALL=C "
   printf " %q " "${cmd2[@]}"
   printf " > "
   printf " %q " "$output"
@@ -166,13 +178,9 @@ if [[ "$dry_run" == true ]] || [[ "${quiet:-}" == "false" ]]; then
   echo
 fi
 
-###############################################################################
-# Execute command
-###############################################################################
-
 if [[ "$dry_run" == true ]]; then
     echo "Dry-run mode enabled — command not executed."
     exit 0
 fi
 
-"${cmd1[@]}" | "${cmd2[@]}" > "$output"
+"${cmd1[@]}" | LC_ALL=C "${cmd2[@]}" > "$output"
