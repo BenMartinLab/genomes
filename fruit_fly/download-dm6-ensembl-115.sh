@@ -64,8 +64,6 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Drosophila_melanogaster.BDGP6.54.115.filtered.gtf \
   dm6.gtf
-mkdir -p slamseq
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output slamseq/dm6-slamdunk.bed
 
 rm Drosophila_melanogaster.BDGP6.54.dna.toplevel.fa
 rm Drosophila_melanogaster.BDGP6.54.dna.toplevel.filtered.fa
@@ -73,3 +71,12 @@ rm Drosophila_melanogaster.BDGP6.54.115.gtf
 rm Drosophila_melanogaster.BDGP6.54.115.filtered.gtf
 rm chromAlias.txt
 rm chromAlias.txt.bak
+
+###############################################################################
+# Custom genome files
+###############################################################################
+
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output slamseq/dm6-slamdunk.bed
+
+"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta dm6.fa --gtf dm6.gtf -w dm6-active-transcripts.fa

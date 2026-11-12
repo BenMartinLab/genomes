@@ -8,14 +8,16 @@
 2. [Updating scripts](#Updating-scripts)
 3. [Downloading genomes](#Downloading-genomes)
 4. [Genomes with spike-in](#Genomes-with-spike-in)
-5. [Creating indexes for bowtie2, STAR, etc...](#Creating-indexes-for-bowtie2-STAR-etc)
-   1. [Bowtie2](#Bowtie2)
-   2. [STAR](#STAR)
-   3. [kallisto](#kallisto)
-6. [Creating pipeline specific files](#Creating-pipeline-specific-files)
-   1. [PRO-seq](#PRO-seq)
-      1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
-      2. [Create transcript list from GTF](#Create-transcript-list-from-GTF)
+5. [Install dependencies](#install-dependencies)
+    1. [GffRead](#gffread)
+6. [Creating indexes for bowtie2, STAR, etc...](#Creating-indexes-for-bowtie2-STAR-etc)
+    1. [Bowtie2](#Bowtie2)
+    2. [STAR](#STAR)
+    3. [kallisto](#kallisto)
+7. [Creating pipeline specific files](#Creating-pipeline-specific-files)
+    1. [PRO-seq](#PRO-seq)
+        1. [Create TSS list from GTF](#Create-TSS-list-from-GTF)
+        2. [Create transcript list from GTF](#Create-transcript-list-from-GTF)
 
 ## Installing of the scripts
 
@@ -62,6 +64,27 @@ Then, run the desired script. For example:
 
 ```shell
 bash ./human/create-hg38-spike-dm6-ensembl-115.sh
+```
+
+## Install dependencies
+
+Move to genomes scripts directory.
+
+```shell
+cd /project/def-bmartin/genomes
+```
+
+### GffRead
+
+```shell
+git clone https://github.com/gpertea/gffread gffread_sources
+cd gffread_sources
+git checkout v0.12.9
+make release
+cp gffread ../gffread
+cd ..
+rm -rf gffread_sources
+rm -rf gclib
 ```
 
 ## Creating indexes for bowtie2, STAR, etc...
@@ -115,6 +138,8 @@ sbatch --mem=40G star-index.sh \
 ```shell
 mkdir kallisto
 sbatch kallisto-index.sh -i kallisto/$genome.cdna.idx $genome.cdna.fa
+sbatch kallisto-index.sh -i kallisto/$genome-active-transcripts.idx \
+    $genome-active-transcripts.fa
 ```
 
 ## Creating pipeline specific files

@@ -65,9 +65,16 @@ cat hg38.cdna.fa \
 cat hg38.gtf \
     dm6.gtf \
     > hg38-spike-dm6.gtf
-mkdir -p slamseq
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output slamseq/hg38-spike-dm6-slamdunk.bed
 
 rm dm6.fa.bak
 rm dm6.cdna.fa.bak
 rm dm6.gtf.bak
+
+###############################################################################
+# Custom genome files
+###############################################################################
+
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output slamseq/hg38-spike-dm6-slamdunk.bed
+
+"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta hg38-spike-dm6.fa --gtf hg38-spike-dm6.gtf -w hg38-spike-dm6-active-transcripts.fa

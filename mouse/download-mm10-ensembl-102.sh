@@ -63,11 +63,18 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Mus_musculus.GRCm38.102.filtered.gtf \
   mm10.gtf
-mkdir -p slamseq
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10.gtf --output slamseq/mm10-slamdunk.bed
 
 rm Mus_musculus.GRCm38.dna.primary_assembly.fa
 rm Mus_musculus.GRCm38.dna.primary_assembly.filtered.fa
 rm Mus_musculus.GRCm38.102.gtf
 rm Mus_musculus.GRCm38.102.filtered.gtf
 rm chromAlias.txt
+
+###############################################################################
+# Custom genome files
+###############################################################################
+
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10.gtf --output slamseq/mm10-slamdunk.bed
+
+"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta mm10.fa --gtf mm10.gtf -w mm10-active-transcripts.fa

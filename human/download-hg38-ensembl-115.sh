@@ -63,11 +63,18 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Homo_sapiens.GRCh38.115.filtered.gtf \
   hg38.gtf
-mkdir -p slamseq
-"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output slamseq/hg38-slamdunk.bed
 
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
 rm Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa
 rm Homo_sapiens.GRCh38.115.gtf
 rm Homo_sapiens.GRCh38.115.filtered.gtf
 rm chromAlias.txt
+
+###############################################################################
+# Custom genome files
+###############################################################################
+
+mkdir -p slamseq
+"${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output slamseq/hg38-slamdunk.bed
+
+"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta hg38.fa --gtf hg38.gtf -w hg38-active-transcripts.fa

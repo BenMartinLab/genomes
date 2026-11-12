@@ -66,6 +66,15 @@ cat dm6.cdna.fa \
 cat dm6.gtf \
     sacCer3.gtf \
     > dm6-spike-sacCer3.gtf
+
+rm sacCer3.fa.bak
+rm sacCer3.cdna.fa.bak
+rm sacCer3.gtf.bak
+
+###############################################################################
+# Custom genome files
+###############################################################################
+
 mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output slamseq/dm6-slamdunk-tmp.bed
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf sacCer3.gtf --output slamseq/sacCer3-slamdunk-tmp.bed
@@ -78,6 +87,4 @@ rm slamseq/dm6-slamdunk-tmp.bed
 rm slamseq/sacCer3-slamdunk-tmp.bed
 rm slamseq/sacCer3-slamdunk-slop.bed
 
-rm sacCer3.fa.bak
-rm sacCer3.cdna.fa.bak
-rm sacCer3.gtf.bak
+"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta dm6-spike-sacCer3.fa --gtf dm6-spike-sacCer3.gtf -w dm6-spike-sacCer3-active-transcripts.fa

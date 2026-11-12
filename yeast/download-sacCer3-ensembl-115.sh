@@ -64,6 +64,17 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Saccharomyces_cerevisiae.R64-1-1.115.filtered.gtf \
   sacCer3.gtf
+
+rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
+rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.filtered.fa
+rm Saccharomyces_cerevisiae.R64-1-1.115.gtf
+rm Saccharomyces_cerevisiae.R64-1-1.115.filtered.gtf
+rm chromAlias.txt
+
+###############################################################################
+# Custom genome files
+###############################################################################
+
 mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf sacCer3.gtf --output slamseq/sacCer3-slamdunk-tmp.bed
 bedtools slop -s -l 0 -r 250 \
@@ -72,8 +83,4 @@ bedtools slop -s -l 0 -r 250 \
     > slamseq/sacCer3-slamdunk.bed
 rm slamseq/sacCer3-slamdunk-tmp.bed
 
-rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa
-rm Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.filtered.fa
-rm Saccharomyces_cerevisiae.R64-1-1.115.gtf
-rm Saccharomyces_cerevisiae.R64-1-1.115.filtered.gtf
-rm chromAlias.txt
+"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta sacCer3.fa --gtf sacCer3.gtf -w sacCer3-active-transcripts.fa
