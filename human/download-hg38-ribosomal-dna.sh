@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+###############################################################################
+# Load modules on Alliance clusters
+###############################################################################
+
 if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
@@ -10,6 +14,10 @@ then
   module load kent_tools/486
 fi
 echo
+
+###############################################################################
+# Script name detection
+###############################################################################
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
@@ -31,6 +39,10 @@ tar -xvf Human_hg38-rDNA_genome_v1.0.tar.gz
 tar -xvf Human_hg38-rDNA_genome_v1.0_annotation.tar.gz
 gunzip Homo_sapiens.GRCh38.115.gtf.gz
 gunzip chromAlias.txt.gz
+
+###############################################################################
+# Filter chromosomes and use 'chrX' for chromosome names
+###############################################################################
 
 echo "Filtering human FASTA file"
 python "${genomes_path}/filter-chromosome.py" \

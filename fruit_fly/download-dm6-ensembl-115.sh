@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+###############################################################################
+# Load modules on Alliance clusters
+###############################################################################
+
 if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
@@ -9,6 +13,10 @@ then
   module load python/3.12.4
 fi
 echo
+
+###############################################################################
+# Script name detection
+###############################################################################
 
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
@@ -27,6 +35,10 @@ wget https://hgdownload.gi.ucsc.edu/goldenPath/dm6/database/chromAlias.txt.gz
 
 echo "Decompressing files"
 gunzip ./*.gz
+
+###############################################################################
+# Filter chromosomes and use 'chrX' for chromosome names
+###############################################################################
 
 echo "Filtering fruit fly FASTA file"
 sed -i.bak '1s/^/mitochondrion_genome\tchrM\tensembl\n/' chromAlias.txt

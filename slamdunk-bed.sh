@@ -24,19 +24,18 @@ script_name="$(basename "$script_path")"
 
 show_help() {
     cat << END_OF_HELP
+Usage: $script_name [options]
 
-Usage: $script_name [options]"
+Options:
+  -g, --gtf       FILE       GTF file (required)
+  -o, --output    FILE       Output file (required)
+  -d, --dry-run              Print commands but do not execute
+  -q, --quiet                Don't show messages
+  -h, --help                 Show this help
 
-Wrapper options:"
-  -g, --gtf       FILE       GTF file (required)"
-  -o, --output    FILE       Output file (required)"
-  -d, --dry-run              Print commands but do not execute"
-  -q, --quiet                Don't show messages"
-  -h, --help                 Show this help"
-
-Example:"
-  sbatch $script_name --gtf hg38.gtf --output hg38-transcripts.bed"
-  $script_name --gtf hg38.gtf --output hg38-transcripts.bed"
+Example:
+  sbatch $script_name --gtf hg38.gtf --output hg38-transcripts.bed
+  $script_name --gtf hg38.gtf --output hg38-transcripts.bed
 
 END_OF_HELP
 }
@@ -138,6 +137,7 @@ END_OF_SLURM_LOG
 GTF:         $gtf
 Output:      $output
 Dry-run:     $dry_run
+Quiet:       $quiet
 
 
 END_OF_PARAMETER_LOG

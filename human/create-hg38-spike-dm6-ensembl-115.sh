@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+###############################################################################
+# Load modules on Alliance clusters
+###############################################################################
+
 if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
@@ -10,9 +14,17 @@ then
 fi
 echo
 
+###############################################################################
+# Script name detection
+###############################################################################
+
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
 genomes_path="${script_path}/.."
+
+###############################################################################
+# Merge genomes
+###############################################################################
 
 echo "Merging human genome hg38 (GRCh38.p14 release 115 from Ensembl) with fruit fly genome dm6 (BDGP6.54 release 115 from Ensembl)"
 
