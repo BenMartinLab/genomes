@@ -10,6 +10,7 @@ if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
   module load StdEnv/2023
+  module load samtools/1.22.1
   module load python/3.12.4
 fi
 echo
@@ -21,6 +22,10 @@ echo
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
 genomes_path="${script_path}/.."
+
+###############################################################################
+# Download genome
+###############################################################################
 
 echo "Downloading human genome hg38 (GRCh38.p14 release 115 from Ensembl)"
 
@@ -49,10 +54,12 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Homo_sapiens.GRCh38.dna_sm.primary_assembly.filtered.fa \
   hg38.fa
+samtools faidx hg38.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     hg38.fa \
     > hg38.chrom.sizes
 mv Homo_sapiens.GRCh38.cdna.all.fa hg38.cdna.fa
+samtools faidx hg38.cdna.fa
 
 echo "Filtering human GTF file"
 python "${genomes_path}/filter-chromosome.py" \
@@ -78,3 +85,4 @@ mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output slamseq/hg38-slamdunk.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta hg38.fa --gtf hg38.gtf -w hg38-active-transcripts.fa
+samtools faidx hg38-active-transcripts.fa

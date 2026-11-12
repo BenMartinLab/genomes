@@ -10,6 +10,7 @@ if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
   module load StdEnv/2023
+  module load samtools/1.22.1
   module load python/3.12.4
 fi
 echo
@@ -33,11 +34,15 @@ rm -rf hg38-spike-dm6-ensembl-115/*
 cd hg38-spike-dm6-ensembl-115/
 
 cp "${genomes_path}/human/hg38-ensembl-115/hg38.fa" .
+samtools faidx hg38.fa
 cp "${genomes_path}/human/hg38-ensembl-115/hg38.cdna.fa" .
+samtools faidx hg38.cdna.fa
 cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.fa" .
-cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.fa
+samtools faidx dm6.fa
+cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.cdna.fa
+samtools faidx dm6.cdna.fa
 
 cp "${genomes_path}/human/hg38-ensembl-115/hg38.gtf" .
 cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.gtf" .
@@ -49,6 +54,7 @@ awk -F '\t' -v OFS="\t" '$0 !~ /#!/ {$1=$1"_fly"; print $0}' \
 cat hg38.fa \
     dm6.fa \
     > hg38-spike-dm6.fa
+samtools faidx hg38-spike-dm6.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     hg38-spike-dm6.fa \
     > hg38-spike-dm6.chrom.sizes
@@ -61,6 +67,7 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 cat hg38.cdna.fa \
     dm6.cdna.fa \
     > hg38-spike-dm6.cdna.fa
+samtools faidx hg38-spike-dm6.cdna.fa
 
 cat hg38.gtf \
     dm6.gtf \
@@ -78,3 +85,4 @@ mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38-spike-dm6.gtf --output slamseq/hg38-spike-dm6-slamdunk.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta hg38-spike-dm6.fa --gtf hg38-spike-dm6.gtf -w hg38-spike-dm6-active-transcripts.fa
+samtools faidx hg38-spike-dm6-active-transcripts.fa

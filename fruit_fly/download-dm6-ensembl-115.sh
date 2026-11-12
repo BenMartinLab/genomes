@@ -10,6 +10,7 @@ if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
   module load StdEnv/2023
+  module load samtools/1.22.1
   module load python/3.12.4
 fi
 echo
@@ -50,10 +51,12 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Drosophila_melanogaster.BDGP6.54.dna.toplevel.filtered.fa \
   dm6.fa
+samtools faidx dm6.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     dm6.fa \
     > dm6.chrom.sizes
 mv Drosophila_melanogaster.BDGP6.54.cdna.all.fa dm6.cdna.fa
+samtools faidx dm6.cdna.fa
 
 echo "Filtering fruit fly GTF file"
 python "${genomes_path}/filter-chromosome.py" \
@@ -80,3 +83,4 @@ mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output slamseq/dm6-slamdunk.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta dm6.fa --gtf dm6.gtf -w dm6-active-transcripts.fa
+samtools faidx dm6-active-transcripts.fa

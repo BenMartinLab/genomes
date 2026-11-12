@@ -10,6 +10,7 @@ if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
   module load StdEnv/2023
+  module load samtools/1.22.1
   module load python/3.12.4
   module load kent_tools/486
 fi
@@ -22,6 +23,10 @@ echo
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
 genomes_path="${script_path}/.."
+
+###############################################################################
+# Download genome
+###############################################################################
 
 echo "Downloading human genome hg38 optimized for ribosomal DNA (https://github.com/vikramparalkar/rDNA-Mapping-Genomes)"
 
@@ -49,6 +54,7 @@ python "${genomes_path}/filter-chromosome.py" \
   --white "${script_path}/human-chromosome-white-list.txt" \
   Human_hg38-rDNA_genome_v1.0/hg38-rDNA_v1.0.fa \
   hg38.fa
+samtools faidx hg38.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     hg38.fa \
     > hg38.chrom.sizes
@@ -89,3 +95,4 @@ mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output slamseq/hg38-slamdunk.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta hg38.fa --gtf hg38.gtf -w hg38-active-transcripts.fa
+samtools faidx hg38-active-transcripts.fa

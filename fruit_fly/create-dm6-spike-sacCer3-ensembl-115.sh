@@ -11,6 +11,7 @@ then
   module purge
   module load StdEnv/2023
   module load python/3.12.4
+  module load samtools/1.22.1
   module load bedtools/2.31.0
 fi
 echo
@@ -34,11 +35,15 @@ rm -rf dm6-spike-sacCer3-ensembl-115/*
 cd dm6-spike-sacCer3-ensembl-115/
 
 cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.fa" .
+samtools faidx dm6.fa
 cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.cdna.fa" .
+samtools faidx dm6.cdna.fa
 cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.fa" .
-cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_yeast/g' sacCer3.fa
+samtools faidx sacCer3.fa
+cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_yeast/g' sacCer3.cdna.fa
+samtools faidx sacCer3.cdna.fa
 
 cp "${genomes_path}/fruit_fly/dm6-ensembl-115/dm6.gtf" .
 cp "${genomes_path}/yeast/sacCer3-ensembl-115/sacCer3.gtf" .
@@ -50,6 +55,7 @@ awk -F '\t' -v OFS="\t" '$0 !~ /#!/ {$1=$1"_yeast"; print $0}' \
 cat dm6.fa \
     sacCer3.fa \
     > dm6-spike-sacCer3.fa
+samtools faidx dm6-spike-sacCer3.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     dm6-spike-sacCer3.fa \
     > dm6-spike-sacCer3.chrom.sizes
@@ -62,6 +68,7 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 cat dm6.cdna.fa \
     sacCer3.cdna.fa \
     > dm6-spike-sacCer3.cdna.fa
+samtools faidx dm6-spike-sacCer3.cdna.fa
 
 cat dm6.gtf \
     sacCer3.gtf \
@@ -88,3 +95,4 @@ rm slamseq/sacCer3-slamdunk-tmp.bed
 rm slamseq/sacCer3-slamdunk-slop.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta dm6-spike-sacCer3.fa --gtf dm6-spike-sacCer3.gtf -w dm6-spike-sacCer3-active-transcripts.fa
+samtools faidx dm6-spike-sacCer3-active-transcripts.fa

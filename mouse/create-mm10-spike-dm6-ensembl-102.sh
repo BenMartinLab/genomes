@@ -10,6 +10,7 @@ if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
   module load StdEnv/2023
+  module load samtools/1.22.1
   module load python/3.12.4
 fi
 echo
@@ -33,11 +34,15 @@ rm -rf mm10-spike-dm6-ensembl-102/*
 cd mm10-spike-dm6-ensembl-102/
 
 cp "${genomes_path}/mouse/mm10-ensembl-102/mm10.fa" .
+samtools faidx mm10.fa
 cp "${genomes_path}/mouse/mm10-ensembl-102/mm10.cdna.fa" .
+samtools faidx mm10.cdna.fa
 cp "${genomes_path}/fruit_fly/dm6-ensembl-102/dm6.fa" .
-cp "${genomes_path}/fruit_fly/dm6-ensembl-102/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.fa
+samtools faidx dm6.fa
+cp "${genomes_path}/fruit_fly/dm6-ensembl-102/dm6.cdna.fa" .
 sed -r -i.bak 's/(^>[^ ]*)/\1_fly/g' dm6.cdna.fa
+samtools faidx dm6.cdna.fa
 
 cp "${genomes_path}/mouse/mm10-ensembl-102/mm10.gtf" .
 cp "${genomes_path}/fruit_fly/dm6-ensembl-102/dm6.gtf" .
@@ -49,6 +54,7 @@ awk -F '\t' -v OFS="\t" '$0 !~ /#!/ {$1=$1"_fly"; print $0}' \
 cat mm10.fa \
     dm6.fa \
     > mm10-spike-dm6.fa
+samtools faidx mm10-spike-dm6.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     mm10-spike-dm6.fa \
     > mm10-spike-dm6.chrom.sizes
@@ -61,6 +67,7 @@ awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ 
 cat mm10.cdna.fa \
     dm6.cdna.fa \
     > mm10-spike-dm6.cdna.fa
+samtools faidx mm10-spike-dm6.cdna.fa
 
 cat mm10.gtf \
     dm6.gtf \
@@ -78,3 +85,4 @@ mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10-spike-dm6.gtf --output slamseq/mm10-spike-dm6-slamdunk.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta mm10-spike-dm6.fa --gtf mm10-spike-dm6.gtf -w mm10-spike-dm6-active-transcripts.fa
+samtools faidx mm10-spike-dm6-active-transcripts.fa

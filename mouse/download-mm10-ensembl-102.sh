@@ -10,6 +10,7 @@ if [[ -n "$CC_CLUSTER" ]]
 then
   module purge
   module load StdEnv/2023
+  module load samtools/1.22.1
   module load python/3.12.4
 fi
 echo
@@ -21,6 +22,10 @@ echo
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
 genomes_path="${script_path}/.."
+
+###############################################################################
+# Download genome
+###############################################################################
 
 echo "Downloading mouse genome mm10 (GRCm38.p6 release 102 from Ensembl)"
 
@@ -49,10 +54,12 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Mus_musculus.GRCm38.dna.primary_assembly.filtered.fa \
   mm10.fa
+samtools faidx mm10.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     mm10.fa \
     > mm10.chrom.sizes
 mv Mus_musculus.GRCm38.cdna.all.fa mm10.cdna.fa
+samtools faidx mm10.cdna.fa
 
 echo "Filtering mouse GTF file"
 python "${genomes_path}/filter-chromosome.py" \
@@ -78,3 +85,4 @@ mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10.gtf --output slamseq/mm10-slamdunk.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta mm10.fa --gtf mm10.gtf -w mm10-active-transcripts.fa
+samtools faidx mm10-active-transcripts.fa

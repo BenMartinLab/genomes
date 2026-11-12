@@ -11,6 +11,7 @@ then
   module purge
   module load StdEnv/2023
   module load python/3.12.4
+  module load samtools/1.22.1
   module load bedtools/2.31.0
 fi
 echo
@@ -22,6 +23,10 @@ echo
 script_path=$(dirname "$(readlink -f "$0")")
 cd "$script_path" || { echo "Folder $script_path does not exists"; exit 1; }
 genomes_path="${script_path}/.."
+
+###############################################################################
+# Download genome
+###############################################################################
 
 echo "Downloading yeast genome sacCer3 (R64-1-1 release 115 from Ensembl)"
 
@@ -50,10 +55,12 @@ python "${genomes_path}/replace-chromosome.py" --delete \
   --mapping chromAlias.txt \
   Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.filtered.fa \
   sacCer3.fa
+samtools faidx sacCer3.fa
 awk '$0 ~ ">" {if (NR > 1) {print c;} c=0;printf substr($1,2,100) "\t"; } $0 !~ ">" {c+=length($0);} END { print c; }' \
     sacCer3.fa \
     > sacCer3.chrom.sizes
 mv Saccharomyces_cerevisiae.R64-1-1.cdna.all.fa sacCer3.cdna.fa
+samtools faidx sacCer3.cdna.fa
 
 echo "Filtering yeast GTF file"
 python "${genomes_path}/filter-chromosome.py" \
@@ -84,3 +91,4 @@ bedtools slop -s -l 0 -r 250 \
 rm slamseq/sacCer3-slamdunk-tmp.bed
 
 "${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta sacCer3.fa --gtf sacCer3.gtf -w sacCer3-active-transcripts.fa
+samtools faidx sacCer3-active-transcripts.fa
