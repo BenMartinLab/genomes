@@ -77,4 +77,4 @@ rm chromAlias.txt
 mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf mm10.gtf --output slamseq/mm10-slamdunk.bed
 
-"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta mm10.fa --gtf mm10.gtf -w mm10-active-transcripts.fa
+"${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta mm10.fa --gtf mm10.gtf -w mm10-active-transcripts.fa

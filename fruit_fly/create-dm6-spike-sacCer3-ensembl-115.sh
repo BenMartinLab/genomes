@@ -87,4 +87,4 @@ rm slamseq/dm6-slamdunk-tmp.bed
 rm slamseq/sacCer3-slamdunk-tmp.bed
 rm slamseq/sacCer3-slamdunk-slop.bed
 
-"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta dm6-spike-sacCer3.fa --gtf dm6-spike-sacCer3.gtf -w dm6-spike-sacCer3-active-transcripts.fa
+"${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta dm6-spike-sacCer3.fa --gtf dm6-spike-sacCer3.gtf -w dm6-spike-sacCer3-active-transcripts.fa

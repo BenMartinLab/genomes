@@ -79,4 +79,4 @@ rm chromAlias.txt.bak
 mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf dm6.gtf --output slamseq/dm6-slamdunk.bed
 
-"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta dm6.fa --gtf dm6.gtf -w dm6-active-transcripts.fa
+"${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta dm6.fa --gtf dm6.gtf -w dm6-active-transcripts.fa

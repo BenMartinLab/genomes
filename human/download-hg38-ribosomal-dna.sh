@@ -88,4 +88,4 @@ rm chromAlias.txt
 mkdir -p slamseq
 "${genomes_path}"/slamdunk-bed.sh --quiet --gtf hg38.gtf --output slamseq/hg38-slamdunk.bed
 
-"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta hg38.fa --gtf hg38.gtf -w hg38-active-transcripts.fa
+"${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta hg38.fa --gtf hg38.gtf -w hg38-active-transcripts.fa

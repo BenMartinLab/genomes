@@ -83,4 +83,4 @@ bedtools slop -s -l 0 -r 250 \
     > slamseq/sacCer3-slamdunk.bed
 rm slamseq/sacCer3-slamdunk-tmp.bed
 
-"${genomes_path}"/active-transcripts-gtf.sh --quiet --fasta sacCer3.fa --gtf sacCer3.gtf -w sacCer3-active-transcripts.fa
+"${genomes_path}"/active-transcripts-fasta.sh --quiet --fasta sacCer3.fa --gtf sacCer3.gtf -w sacCer3-active-transcripts.fa
