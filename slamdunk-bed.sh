@@ -23,20 +23,22 @@ script_name="$(basename "$script_path")"
 ###############################################################################
 
 show_help() {
-    echo
-    echo "Usage: $script_name [options]"
-    echo
-    echo "Wrapper options:"
-    echo "  -g, --gtf       FILE       GTF file (required)"
-    echo "  -o, --output    FILE       Output file (required)"
-    echo "  -d, --dry-run              Print commands but do not execute"
-    echo "  -q, --quiet                Don't show messages"
-    echo "  -h, --help                 Show this help"
-    echo
-    echo "Example:"
-    echo "  sbatch $script_name --gtf hg38.gtf --output hg38-transcripts.bed"
-    echo "  $script_name --gtf hg38.gtf --output hg38-transcripts.bed"
-    echo
+    cat << END_OF_HELP
+
+Usage: $script_name [options]"
+
+Wrapper options:"
+  -g, --gtf       FILE       GTF file (required)"
+  -o, --output    FILE       Output file (required)"
+  -d, --dry-run              Print commands but do not execute"
+  -q, --quiet                Don't show messages"
+  -h, --help                 Show this help"
+
+Example:"
+  sbatch $script_name --gtf hg38.gtf --output hg38-transcripts.bed"
+  $script_name --gtf hg38.gtf --output hg38-transcripts.bed"
+
+END_OF_HELP
 }
 
 ###############################################################################
@@ -113,30 +115,33 @@ fi
 ###############################################################################
 
 if [[ "${quiet:-}" == "false" ]]; then
-    echo "------------------------------------------------------------"
-    echo "$script_name started at: $(date)"
-    echo "Host: $(hostname)"
-    echo "User: $USER"
-    echo "Script: $script_name"
-    echo
-    echo "SLURM metadata:"
-    echo "  Job ID:        ${SLURM_JOB_ID:-N/A}"
-    echo "  Array Task ID: ${SLURM_ARRAY_TASK_ID:-N/A}"
-    echo "  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}"
-    echo "  Node:          ${SLURM_NODELIST:-N/A}"
-    echo
-    if [[ "${debug:-}" == true ]]; then
+    cat << END_OF_SLURM_LOG
+------------------------------------------------------------
+$script_name started at: $(date)
+Host: $(hostname)
+User: $USER
+Script: $script_name
+
+SLURM metadata:
+  Job ID:        ${SLURM_JOB_ID:-N/A}
+  Array Task ID: ${SLURM_ARRAY_TASK_ID:-N/A}
+  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}
+  Node:          ${SLURM_NODELIST:-N/A}
+END_OF_SLURM_LOG
+    if [[ ${debug:-} == true ]]; then
         echo "Environment dump:"
         env | sort
     fi
-    echo "------------------------------------------------------------"
-    echo
-    echo "GTF:         $gtf"
-    echo "Output:      $output"
-    echo "Dry-run:     $dry_run"
-    echo
-fi
+    cat << END_OF_PARAMETER_LOG
+------------------------------------------------------------
 
+GTF:         $gtf
+Output:      $output
+Dry-run:     $dry_run
+
+
+END_OF_PARAMETER_LOG
+fi
 
 ###############################################################################
 # Build command

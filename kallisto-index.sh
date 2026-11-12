@@ -34,23 +34,24 @@ script_name="$(basename "$script_path")"
 ###############################################################################
 
 show_help() {
-    echo
-    echo "Usage: $script_name [options] -- [extra args passed to kallisto index]"
-    echo
-    echo "Wrapper options:"
-    echo "  -t, --threads    INT       Threads (default: SLURM_CPUS_PER_TASK)"
-    echo "  -T, --tmp        DIR       Temporary directory (default: SLURM_TMPDIR)"
-    echo "  -d, --dry-run              Print commands but do not execute"
-    echo "  -h, --help                 Show this help"
-    echo
-    echo "Everything after '--' or any unknown option is passed directly to kallisto index."
-    echo
-    echo "Do not specify FASTQ files; they are inferred from the samplesheet."
-    echo
-    echo "Example:"
-    echo "  sbatch --cpus-per-task=8 $script_name --samplesheet samples.csv -i kallisto/human.idx -x BULK --paired"
-    echo "  $script_name --samplesheet samples.csv -i kallisto/human.idx -x BULK --paired"
-    echo
+    cat << END_OF_HELP
+Usage: $script_name [options] -- [extra args passed to kallisto index]
+
+Wrapper options:
+  -t, --threads    INT       Threads (default: SLURM_CPUS_PER_TASK)
+  -T, --tmp        DIR       Temporary directory (default: SLURM_TMPDIR)
+  -d, --dry-run              Print commands but do not execute
+  -h, --help                 Show this help
+
+Everything after '--' or any unknown option is passed directly to kallisto index.
+
+Do not specify FASTQ files; they are inferred from the samplesheet.
+
+Example:
+  sbatch --cpus-per-task=8 $script_name --samplesheet samples.csv -i kallisto/human.idx -x BULK --paired
+  $script_name --samplesheet samples.csv -i kallisto/human.idx -x BULK --paired
+
+END_OF_HELP
 }
 
 ###############################################################################
@@ -119,28 +120,32 @@ fi
 # Logging + SLURM metadata + environment dump
 ###############################################################################
 
-echo "------------------------------------------------------------"
-echo "$script_name started at: $(date)"
-echo "Host: $(hostname)"
-echo "User: $USER"
-echo "Script: $script_name"
-echo
-echo "SLURM metadata:"
-echo "  Job ID:        ${SLURM_JOB_ID:-N/A}"
-echo "  Array Task ID: ${SLURM_ARRAY_TASK_ID:-N/A}"
-echo "  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}"
-echo "  Node:          ${SLURM_NODELIST:-N/A}"
-echo
-if [[ "${debug:-}" == true ]]; then
+cat << END_OF_SLURM_LOG
+------------------------------------------------------------
+$script_name started at: $(date)
+Host: $(hostname)
+User: $USER
+Script: $script_name
+
+SLURM metadata:
+  Job ID:        ${SLURM_JOB_ID:-N/A}
+  Array Task ID: ${SLURM_ARRAY_TASK_ID:-N/A}
+  CPUs:          ${SLURM_CPUS_PER_TASK:-N/A}
+  Node:          ${SLURM_NODELIST:-N/A}
+END_OF_SLURM_LOG
+if [[ ${debug:-} == true ]]; then
     echo "Environment dump:"
     env | sort
 fi
-echo "------------------------------------------------------------"
-echo
-echo "Threads:     $threads"
-echo "Tmp dir:     $tmp_dir"
-echo "Dry-run:     $dry_run"
-echo
+cat << END_OF_PARAMETER_LOG
+------------------------------------------------------------
+
+Threads:      $threads
+Tmp dir:      $tmp_dir
+Dry-run:      $dry_run
+
+
+END_OF_PARAMETER_LOG
 
 ###############################################################################
 # Build command
@@ -152,17 +157,18 @@ cmd=(
     "${extra_parameters[@]}"
 )
 
+###############################################################################
+# Execute command
+###############################################################################
+
 echo "Command:"
 printf "  %q " "${cmd[@]}"
 echo
 echo
 
-###############################################################################
-# Execute command
-###############################################################################
-
 if [[ "$dry_run" == true ]]; then
     echo "Dry-run mode enabled — command not executed."
     exit 0
 fi
+
 "${cmd[@]}"
