@@ -157,7 +157,7 @@ cmd1=(
         transcript_support_level=gensub(/.*transcript_support_level "([a-zA-Z0-9_\-\(\)]+)".*/,"\\1","1",$9);
 
         # Skip gene type.
-        if ($3 != "gene") {
+        if ($3 == "gene") {
             next;
         }
         # Use only protein_coding (mRNA), snRNA or non-suspect transcripts.
